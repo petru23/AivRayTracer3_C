@@ -9,9 +9,18 @@ Ray_t ScreenPointToRay(int x, int y, float fov, int width, int height, Camera_t 
     float norm_y = (float)y / height;
     norm_x = (2 * norm_x - 1) * screen_space_x;
     norm_y = (1 - 2 * norm_y) * screen_space_y;
-    Vector3_t P = newVector3(norm_x, norm_y, 1);//Testa modificando la z
+    Vector3_t P = newVector3(norm_x, norm_y, 0); //Testa modificando la z
     Ray_t ray;
     ray.Direction = Vector3_Normalized(Vector3_Sub(P, Camera.Position));
     ray.Origin = Camera.Position;
     return ray;
+}
+
+Ray_t RayShadow(HitPoint_t *hitPoint, Light_t light)
+{
+    Ray_t rayShadow;
+    Vector3_t lightDirection = Vector3_Normalized(Vector3_Sub(light.Position, hitPoint->Position));
+    rayShadow.Origin = hitPoint->Position;
+    rayShadow.Direction = lightDirection;
+    return rayShadow;
 }

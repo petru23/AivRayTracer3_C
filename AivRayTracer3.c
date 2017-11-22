@@ -17,7 +17,7 @@
 
 #define SPHERE0 { {0, 0, 100}, 3, YELLOW }
 #define SPHERE1 { {2, 2, 150}, 5, RED }
-#define SPHERE2 { {-3, -1, 300}, 6, BLUE }
+#define SPHERE2 { {-3, -1, 200}, 6, BLUE }
 
 draw_color_t black = BLACK;
 draw_color_t red = RED;
@@ -72,7 +72,7 @@ int HitByRay(Ray_t ray, HitPoint_t *hitPoint, Light_t light)
 int main(int argc, char *argv[])
 {
     Camera_t camera = CreateCamera(newVector3(0, 0, -5));
-    Light_t light = CreateLight(newVector3(100, 10, 50));
+    Light_t light = CreateLight(newVector3(1, 1, -10));
     draw_context_t *context = draw_context_new("AivRayTracer3", 600, 600);
 
     while (1)
@@ -84,11 +84,14 @@ int main(int argc, char *argv[])
             {
                 Ray_t ray = ScreenPointToRay(x, y, 60, context->width, context->height, camera, context);
                 HitPoint_t hit;
-                if(!HitByRay(ray, &hit, light))
-                    {
-                        //it draws what color the ray hitted
-                        draw_context_put_pixel(context, x, y, hit.Color);
-                    }
+
+                if (!HitByRay(ray, &hit, light))
+                {
+                    Ray_t rayShadow = RayShadow(&hit, light);
+                    HitByRay(rayShadow, &hit, light);
+                    // it draws what color the ray hitted
+                    draw_context_put_pixel(context, x, y, hit.Color);
+                }
             }
         }
         SDL_Event e;
