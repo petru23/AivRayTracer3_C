@@ -1,10 +1,14 @@
-// #include <Vector3.h>
+#include "Vector3.h"
+#ifndef CAMERA_H
+#define CAMERA_H
+typedef struct Camera
+{
+    // float left;
+    // float right;
+    // float top;
+    // float bottom;
+    Vector3_t Position;
+} Camera_t;
 
-// #ifdef _WIN32
-// #define EXPORT __declspec(dllexport)
-// #else
-// #define EXPORT
-// #endif
-
-// EXPORT struct Camera(Vector3 position, int width, int height,const float left = -1,const float top = 1,const float right = 1, const float bottom = -1);
-
+Camera_t CreateCamera(Vector3_t);
+#endif

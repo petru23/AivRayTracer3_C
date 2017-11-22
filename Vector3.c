@@ -1,7 +1,6 @@
-#include <Vector3.h>
+#include "Vector3.h"
 #include <math.h>
 
-int main (){}
 Vector3_t newVector3(float x, float y, float z)
 {
     Vector3_t vec3;
