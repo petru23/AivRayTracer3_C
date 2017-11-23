@@ -20,7 +20,7 @@ Ray_t RayShadow(HitPoint_t *hitPoint, Light_t light)
 {
     Ray_t rayShadow;
     Vector3_t lightDirection = Vector3_Normalized(Vector3_Sub(light.Position, hitPoint->Position));
-    rayShadow.Origin = hitPoint->Position;
+    rayShadow.Origin = Vector3_Add(hitPoint->Position, Vector3_Scaled(lightDirection, 0.001));
     rayShadow.Direction = lightDirection;
     return rayShadow;
 }

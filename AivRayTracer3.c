@@ -9,15 +9,47 @@
 #include "HitPoint.h"
 #include "Draw.h"
 
-#define BLACK {0, 0, 0, 255}
-#define RED {255, 0, 0, 255}
-#define YELLOW {255, 255, 0, 255}
-#define GREEN {0, 255, 0, 255}
-#define BLUE {0, 0, 255, 255}
+#define BLACK        \
+    {                \
+        0, 0, 0, 255 \
+    }
+#define RED            \
+    {                  \
+        255, 0, 0, 255 \
+    }
+#define YELLOW           \
+    {                    \
+        255, 255, 0, 255 \
+    }
+#define GREEN          \
+    {                  \
+        0, 255, 0, 255 \
+    }
+#define BLUE           \
+    {                  \
+        0, 0, 255, 255 \
+    }
 
-#define SPHERE0 { {0, 0, 100}, 3, YELLOW }
-#define SPHERE1 { {2, 2, 150}, 5, RED }
-#define SPHERE2 { {-3, -1, 200}, 6, BLUE }
+#define SPHERE0                \
+    {                          \
+        {0, 0, 100}, 3, YELLOW \
+    }
+#define SPHERE1             \
+    {                       \
+        {2, 2, 150}, 5, RED \
+    }
+#define SPHERE2                 \
+    {                           \
+        {-10, -1, 250}, 6, BLUE \
+    }
+#define SPHERE3                 \
+    {                           \
+        {-5, -5, 300}, 6, GREEN \
+    }
+#define SPHERE4              \
+    {                        \
+        {3, 2, 800}, 6, BLUE \
+    }
 
 draw_color_t black = BLACK;
 draw_color_t red = RED;
@@ -25,11 +57,12 @@ draw_color_t yellow = YELLOW;
 draw_color_t green = GREEN;
 draw_color_t blue = BLUE;
 
-Sphere_t spheres[] = {SPHERE0, SPHERE1, SPHERE2};
+Sphere_t spheres[] = {SPHERE0, SPHERE1, SPHERE2, SPHERE3, SPHERE4};
 
 // returns true if hit, set hitPoint to wathever the ray hit
 int HitByRay(Ray_t ray, HitPoint_t *hitPoint, Light_t light)
 {
+    HitPoint_t BestHitPoint;
     hitPoint->Color = black;
     hitPoint->Distance = FLT_MAX;
     hitPoint->Normal = newVector3(0, 0, 0);
@@ -87,9 +120,12 @@ int main(int argc, char *argv[])
 
                 if (!HitByRay(ray, &hit, light))
                 {
+
+                    
                     Ray_t rayShadow = RayShadow(&hit, light);
-                    HitByRay(rayShadow, &hit, light);
                     // it draws what color the ray hitted
+                    // HitPoint_t shadowHit;
+                    //if (HitByRay(rayShadow, &shadowHit, light))
                     draw_context_put_pixel(context, x, y, hit.Color);
                 }
             }
